@@ -1,0 +1,33 @@
+
+<project name="Pacman" default="run" basedir=".">
+
+  <property name="build-directory" value="build"/>
+  <property name="source-directory" value="src"/>
+
+  <path id="class-path">
+    <pathelement location="${build-directory}"/>
+    <pathelement location="./miglayout-4.0.jar"/>
+    <pathelement location="${source-directory}/pkg"/>
+  </path>
+
+  <target name="prepare">
+    <delete dir="${build-directory}"/>
+    <mkdir dir="${build-directory}"/>
+  </target>
+
+  <target name="build" depends="prepare">
+    <javac srcdir="${source-directory}" destdir="${build-directory}" includeantruntime="false">
+      <classpath refid="class-path"/>
+    </javac>
+    <copy todir="${build-directory}/pkg/res" >
+      <fileset dir="${source-directory}/pkg/res" includes="**"/>
+    </copy>
+  </target>
+
+  <target name="run" depends="build">
+    <java fork="true" failonerror="yes" classname="pkg.Main">
+      <classpath refid="class-path"/>
+    </java>
+  </target>
+
+</project>
